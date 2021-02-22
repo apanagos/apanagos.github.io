@@ -17,7 +17,13 @@
         url="assets/marker.patt"
         preset="custom"
       >
-        
+
+      <!-- Basic plane. -->
+      <a-plane color="#CCC" height="50" width="50"></a-plane>
+      
+      <a-text value="Now Interactable" geometry="primitive:plane"></a-text>
+
+      <!-- 
         <a-entity
           position="0 0 0"
           scale="1 1 1"
@@ -29,7 +35,12 @@
           scale="1 1 1"
           gltf-model="box.gltf"
         ></a-entity>
+
         <a-entity id="hello" visible="Hello World" position="-1.3475 0.67939 -2.48304" text__foo="align: center; color: #000000; side: double; value: Test Me Out"></a-entity>
+
+      -->
+
+
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
