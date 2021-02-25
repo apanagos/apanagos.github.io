@@ -1,0 +1,31 @@
+<!doctype HTML>
+<html>
+<script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.2/aframe/build/aframe-ar.js"></script>
+  <body >
+    <a-scene >
+      
+        <a-assets>
+            <img  id="my-image" src="assets/resume.PNG" crossorigin=""/>
+          </a-assets>
+  
+          <a-assets>
+              <img  id="my-image2" src="assets/suit_me.jpg" crossorigin=""/>
+            </a-assets>
+           
+      <a-marker preset="hiro" >
+          <a-text  rotation="-90 0 0"position="0 0 -1.5" text="value: Michael Panagos;color:black;height:2;width:2;align:center;"></a-text>
+
+          <a-text   rotation="-90 0 0" position="0 0 -1.2"  text="value: michael@panagos.ws;color:black;height:2;width:2;align:center;"></a-text>
+          
+          <a-text   rotation="-90 0 0" position="0 0 -.9"  text="value: 713-419-7519;color:black;height:2;width:2;align:center;"></a-text>
+
+          <a-image  rotation="-90 0 0" height="4" width="2" position="2 0 0" src="#my-image"></a-image >
+          <a-circle  rotation="-90 0 0"  radius=".4"position="0 0 0" src="#my-image2"></a-circle>
+          
+
+      </a-marker>
+      <a-entity camera ></a-entity>
+    </a-scene>
+  </body>
+</html>
