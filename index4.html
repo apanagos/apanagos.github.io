@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <!-- we import arjs version without NFT but with marker + location based support -->
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+  
+  <body style="margin : 0px; overflow: hidden;">
+    <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false; trackingMethod: best;' vr-mode-ui="enabled: false">
+      <!-- 
+          gltf-model="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
+      <a-marker type="barcode" value="777">
+
+      -->
+      <a-marker 
+        type="pattern"
+        url="assets/marker.patt"
+        preset="custom"
+      >
+
+      <a-plane color="#CCC" rotation="-90 0 0" height="0.5" width="0.5"></a-plane>
+      <a-box color="red" position="0.25 0 0" rotation="0 0 0" scale="0.25 0.25 0.25"></a-box>
+
+      <!-- Basic plane. -->
+      <!-- <a-plane color="#CCC" height="50" width="50"></a-plane> -->
+      
+      <!-- <a-text value="Now Interactable" geometry="primitive:plane"></a-text> -->
+
+      <!-- 
+        <a-entity
+          position="0 0 0"
+          scale="1 1 1"
+          gltf-model="box.gltf"
+        ></a-entity>
+
+        <a-entity
+          position="2 0 0"
+          scale="1 1 1"
+          gltf-model="box.gltf"
+        ></a-entity>
+
+        <a-entity id="hello" visible="Hello World" position="-1.3475 0.67939 -2.48304" text__foo="align: center; color: #000000; side: double; value: Test Me Out"></a-entity>
+
+      -->
+
+
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
