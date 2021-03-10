@@ -9,7 +9,8 @@
 
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-
+    <script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    
     <!-- Compiled and minified CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -26,7 +27,7 @@
                 this.el.sceneEl.addEventListener('markerFound', () =>
                 {
                     console.log("Marker Found");
-                    $(".pre-screen").hide();
+                    $(".prescreen").hide();
                     $('#cc_video').get(0).play();
 
 
@@ -35,7 +36,7 @@
                 this.el.sceneEl.addEventListener('markerLost', () =>
                 {
                     console.log("Marker Lost");
-                    $(".pre-screen").show();
+                    $(".prescreen").show();
                     $('#cc_video').get(0).pause();
                 });
 
@@ -76,7 +77,7 @@
 
 <body style="margin : 0px; overflow: hidden;">
 
-    <div class="pre-screen"><img src="/assets/pre-screen.png"></div>
+    <div class="prescreen"><img src="/assets/pre-screen.png"></div>
     <div class="threed">
 
       <a-scene
