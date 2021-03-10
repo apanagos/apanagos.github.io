@@ -1,0 +1,11 @@
+Model Information:
+* title:	Baby Yoda
+* source:	https://sketchfab.com/3d-models/baby-yoda-f7cb443df7e348c38aca60eec4fe9509
+* author:	Yxboireal (https://sketchfab.com/Yeboireal)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Baby Yoda" (https://sketchfab.com/3d-models/baby-yoda-f7cb443df7e348c38aca60eec4fe9509) by Yxboireal (https://sketchfab.com/Yeboireal) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
