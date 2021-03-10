@@ -7,24 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Test Materialize</title>
 
-  <script src=https://aframe.io/releases/1.2.0/aframe.min.js></script>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
   <!-- Compiled and minified CSS -->
-  <link href=https://fonts.googleapis.com/icon?family=Material+Icons rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   
-  <link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css>
-  <link rel="stylesheet" href=https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css>
-  <script src=https://code.jquery.com/jquery-3.6.0.min.js></script>
-  <!-- <script>
-    AFRAME.registerComponent('markerhandler', {
-      init: function () {
-        this.el.sceneEl.addEventListener('markerFound', () => {
-          console.log("Marker Found");
-        })
-      }
-    });
-  </script> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script>
       AFRAME.registerComponent('markerhandler', {
@@ -94,8 +85,6 @@
       loading-screen="dotsColor: red; backgroundColor: black;"
       renderer="logarithmicDepthBuffer: true;"
       arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-      id="scene"
-      
     >
 
     <a-assets>
@@ -104,11 +93,12 @@
 
     <a-marker markerhandler preset="hiro" cursor="rayOrigin: mouse" raycaster="objects: a-video" >
 
-      <a-video myvideo position="0 0 0" rotation="-90 90 0" height="2" width="4" src="#andrew" ></a-video>
+      <a-box></a-box>
+      <!-- <a-video myvideo position="0 0 0" rotation="-90 90 0" height="2" width="4" src="#andrew" ></a-video>
       <a-plane position="-0.53 0 0.4" rotation="-90 0 0" height="0.5" width="1" color="red"></a-plane>
       <a-plane position="0.507 0 0.4" rotation="-90 0 0" height="0.5" width="1" color="red"></a-plane>
       <a-plane position="0.507 0 1.0" rotation="-90 0 0" height="0.5" width="1" color="red"></a-plane>
-      <a-text   rotation="-90 0 0" position="0 0 -1.2"  text="value: michael@panagos.ws;color:black;height:2;width:2;align:center;"></a-text>
+      <a-text   rotation="-90 0 0" position="0 0 -1.2"  text="value: michael@panagos.ws;color:black;height:2;width:2;align:center;"></a-text> -->
   
       <!-- <a-video myvideo position="0 0 -2" rotation="-90 90 0" height="2" width="4" src="#andrew" ></a-video>
       <a-plane position="-0.53 0 0.4" rotation="-90 0 0" height="0.5" width="1" color="red"></a-plane>
@@ -157,18 +147,18 @@
         <i class="large material-icons">menu</i>
       </a>
       <ul>
-        <li><a class="btn-floating red" href=https://www.linkedin.com/in/andrew-panagos><i
+        <li><a class="btn-floating red" href="https://www.linkedin.com/in/andrew-panagos"><i
               class="bi bi-linkedin"></i></a></li>
-        <li><a class="btn-floating yellow darken-1" href=tel:+1 713 4195404><i class="material-icons">phone</i></a></li>
-        <li><a class="btn-floating green" href=mailto:andrew@technicool.com?subject=Hello!><i
+        <li><a class="btn-floating yellow darken-1" href="tel:+1 713 4195404"><i class="material-icons">phone</i></a></li>
+        <li><a class="btn-floating green" href="mailto:andrew@technicool.com?subject=Hello!"><i
               class="material-icons">email</i></a></li>
-        <li><a class="btn-floating blue" target="_blank" href=https://www.technicool.com><i class="material-icons">laptop</i></a></li>
+        <li><a class="btn-floating blue" target="_blank" href="https://www.technicool.com"><i class="material-icons">laptop</i></a></li>
       </ul>
     </div>
     </div>
 
   <!-- Compiled and minified JavaScript -->
-  <script src=https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
     $(document).ready(function () {
 
