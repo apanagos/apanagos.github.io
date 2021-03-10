@@ -1,44 +1,176 @@
 <!DOCTYPE html>
 <html>
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <!-- we import arjs version without NFT but with marker + location based support -->
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
-  
-  <body style="margin : 0px; overflow: hidden;">
-    <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5; trackingMethod: best;' vr-mode-ui="enabled: false">
-      <!-- 
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>Test Materialize</title>
+
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+    <!-- Compiled and minified CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        AFRAME.registerComponent('markerhandler',
+        {
+            init: function ()
+            {
+
+                this.el.sceneEl.addEventListener('markerFound', () =>
+                {
+                    console.log("Marker Found");
+                    $(".pre-screen").hide();
+                    $('#cc_video').get(0).play();
+
+
+                });
+
+                this.el.sceneEl.addEventListener('markerLost', () =>
+                {
+                    console.log("Marker Lost");
+                    $(".pre-screen").show();
+                    $('#cc_video').get(0).pause();
+                });
+
+            }
+        });
+
+
+    </script>
+
+    <style>
+     .threed {
+        z-index: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      .overlay {
+        z-index: 1;
+      }
+      .a-loader-title {
+        color: red;
+        background-color: black;
+      }
+
+      .prescreen {
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .prescreen img {
+        margin: auto;
+      }
+    </style>
+</head>
+
+
+<body style="margin : 0px; overflow: hidden;">
+
+    <div class="pre-screen"><img src="/assets/pre-screen.png"></div>
+    <div class="threed">
+
+      <a-scene
+        id="main-scene"
+        embedded
+        vr-mode-ui="enabled: false"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+        cursor="rayOrigin: mouse"
+      >
+            <!-- 
           gltf-model="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
       <a-marker type="barcode" value="777">
 
       -->
-      <!-- <a-entity light="type: hemisphere"></a-entity> -->
-      <a-entity light="type: ambient; color: #FFFFFF"></a-entity>
-      <!-- <a-entity id="model" rotation="0 -29.999999999999996 0" animation-mixer="" shadow="receive: false" gltf-model="https://apanagos.github.io/assets/scene.gltf" scale="0.1 0.1 0.1" position=""></a-entity> -->
-      <!-- <a-entity position="-2 4 2" light="castShadow: true; shadowMapHeight: 1024; shadowMapWidth: 1024; shadowCameraLeft: -7; intensity: 0.5"></a-entity> -->
-      <a-marker preset="hiro" >
-        
-        <!-- <a-entity
+            <!-- <a-entity light="type: hemisphere"></a-entity> -->
+            <!-- <a-entity light="type: ambient; color: #FFFFFF"></a-entity> -->
+            <!-- <a-entity light="type: hemisphere; intensity: 2"></a-entity>
+      <a-entity light="type: ambient; intensity: 4; distance: 1.9" visible=""></a-entity> -->
+            <!-- <a-entity id="model" rotation="0 -29.999999999999996 0" animation-mixer="" shadow="receive: false" gltf-model="https://apanagos.github.io/assets/scene.gltf" scale="0.1 0.1 0.1" position=""></a-entity> -->
+            <!-- <a-entity position="-2 4 2" light="castShadow: true; shadowMapHeight: 1024; shadowMapWidth: 1024; shadowCameraLeft: -7; intensity: 0.5"></a-entity> -->
+
+            <a-assets>
+                <video id="cc_video" loop="true" src="/assets/celebrate_students.mp4"></video>
+            </a-assets>
+
+            <a-marker markerhandler preset="hiro" cursor="rayOrigin: mouse">
+
+                <!-- <a-entity
           position="0 0 0"
           scale="0.1 0.1 0.1"
           gltf-model="/box.gltf"
         ></a-entity> -->
-        <a-entity
-          position="0 0 0"
-          scale="0.1 0.1 0.1"
-          rotation="-90 0 0"
-          gltf-model="/assets/scene.gltf"
-        ></a-entity>
-        
+                <a-entity position="0 0 1" scale="0.1 0.1 0.1" rotation="-90 0 0" gltf-model="/assets/scene.gltf"></a-entity>
 
-        <!-- <a-entity
+                <a-video ccvideo position="0 0 1.5" rotation="-90 0 0" height="2" width="4" src="#cc_video"></a-video>
+
+                <!-- <a-entity
           position="2 0 0"
           scale="1 1 1"
           gltf-model="https://apanagos.github.io/box.gltf"
         ></a-entity> -->
-        <!-- <a-entity id="hello" visible="Hello World" position="-1.3475 0.67939 -2.48304" text__foo="align: center; color: #000000; side: double; value: Test Me Out"></a-entity> -->
-      </a-marker>
-      <a-entity camera></a-entity>
-    </a-scene>
+                <!-- <a-entity id="hello" visible="Hello World" position="-1.3475 0.67939 -2.48304" text__foo="align: center; color: #000000; side: double; value: Test Me Out"></a-entity> -->
+            </a-marker>
+            <a-entity camera></a-entity>
+        </a-scene>
+    </div>
+
+    <div class="overlay">
+      <div id="fab-btn" class="fixed-action-btn click-to-toggle">
+        <a class="btn-floating btn-large red">
+          <i class="large material-icons">menu</i>
+        </a>
+        <ul>
+          <li>
+            <a
+              class="btn-floating red"
+              href="https://www.linkedin.com/in/andrew-panagos"
+              ><i class="bi bi-linkedin"></i
+            ></a>
+          </li>
+          <li>
+            <a class="btn-floating yellow darken-1" href="tel:+1 713 4195404"
+              ><i class="material-icons">phone</i></a
+            >
+          </li>
+          <li>
+            <a
+              class="btn-floating green"
+              href="mailto:andrew@technicool.com?subject=Hello!"
+              ><i class="material-icons">email</i></a
+            >
+          </li>
+          <li>
+            <a
+              class="btn-floating blue"
+              target="_blank"
+              href="https://www.technicool.com"
+              ><i class="material-icons">laptop</i></a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+     <!-- Compiled and minified JavaScript -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+     <script>
+       $(document).ready(function() {
+         $("#fab-btn").floatingActionButton({
+           direction: "top",
+           hoverEnabled: false
+         });
+       });
+     </script>
   </body>
+
 </html>
