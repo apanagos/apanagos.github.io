@@ -29,7 +29,7 @@
                 {
                     console.log("Marker Found");
                     $(".prescreen").hide();
-                    $('#cc_video').get(0).play();
+                    // $('#cc_video').get(0).play();
 
 
                 });
@@ -38,40 +38,110 @@
                 {
                     console.log("Marker Lost");
                     $(".prescreen").show();
-                    $('#cc_video').get(0).pause();
+                    // $('#cc_video').get(0).pause();
                 });
 
             }
         });
 
+        AFRAME.registerComponent('play-on-click',
+        {
+            init: function ()
+            {
+              console.log("init play-on-click");
+                this.onClick = this.onClick.bind(this);
+            },
+            play: function ()
+            {
+              console.log("play play-on-click");
+                window.addEventListener('click', this.onClick);
+            },
+            pause: function ()
+            {
+              console.log("pause play-on-click");
+
+                window.removeEventListener('click', this.onClick);
+            },
+            onClick: function (evt)
+            {
+              console.log("onClick play-on-click");
+
+                var videoEl = this.el.getAttribute('src').src;
+                if (!videoEl) { return; }
+                this.el.object3D.visible = true;
+                videoEl.play();
+            }
+        });
+
+        AFRAME.registerComponent('hide-on-play',
+        {
+            schema: { type: 'selector' },
+            init: function ()
+            {
+              console.log("init hide-on-play");
+                this.onPlaying = this.onPlaying.bind(this);
+                this.onPause = this.onPause.bind(this);
+                this.el.object3D.visible = !this.data.playing;
+            },
+            play: function ()
+            {
+              console.log("play hide-on-play");
+                if (this.data)
+                {
+                    this.data.addEventListener('playing', this.onPlaying);
+                    this.data.addEventListener('pause', this.onPause);
+                }
+            },
+            pause: function ()
+            {
+              console.log("pause hide-on-play");
+                if (this.data)
+                {
+                    this.data.removeEventListener('playing', this.onPlaying);
+                    this.data.removeEventListener('pause', this.onPause);
+                }
+            },
+            onPlaying: function (evt)
+            {
+              console.log("onPlaying hide-on-play");
+                this.el.object3D.visible = false;
+            },
+            onPause: function (evt)
+            {
+              console.log("onPause hide-on-play");
+                this.el.object3D.visible = true;
+            }
+        });
 
     </script>
 
     <style>
-     .threed {
-        z-index: 0;
-        height: 100%;
-        width: 100%;
-      }
+        .threed {
+            z-index: 0;
+            height: 100%;
+            width: 100%;
+        }
 
-      .overlay {
-        z-index: 1;
-      }
-      .a-loader-title {
-        color: rgb(153, 151, 151);
-        background-color: black;
-      }
+        .overlay {
+            z-index: 1;
+        }
 
-      .prescreen {
-        z-index: 2;
-        display: flex;
-        justify-content: center;
-        height: 100%;
-      }
+        .a-loader-title {
+            color: rgb(153, 151, 151);
+            background-color: black;
+        }
 
-      .prescreen img {
-        margin: auto;
-      }
+        .prescreen {
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .prescreen img {
+            margin: auto;
+        }
+
     </style>
 </head>
 
@@ -81,16 +151,9 @@
     <div class="prescreen"><img src="/assets/pre-screen.png"></div>
     <div class="threed">
 
-      <!-- embedded -->
+        <!-- embedded -->
 
-      <a-scene
-        id="main-scene"
-        vr-mode-ui="enabled: false"
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-        cursor="rayOrigin: mouse"
-        precision="mediump"
-        
-      >
+        <a-scene id="main-scene" vr-mode-ui="enabled: false" arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" cursor="rayOrigin: mouse" precision="mediump">
             <!-- 
           gltf-model="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
       <a-marker type="barcode" value="777">
@@ -104,19 +167,22 @@
             <!-- <a-entity position="-2 4 2" light="castShadow: true; shadowMapHeight: 1024; shadowMapWidth: 1024; shadowCameraLeft: -7; intensity: 0.5"></a-entity> -->
 
             <a-assets>
-                <video id="cc_video" loop="true" src="/assets/celebrate_students.mp4"></video>
+                <video id="cc_video" autostart="false" controls poster="assets/celebrate-students-poster.png" loop="true" src="assets/celebrate_students.mp4"></video>
+                <img id="cc_video_poster" src="assets/celebrate-students-poster.png">
             </a-assets>
 
-            <a-marker markerhandler preset="hiro" cursor="rayOrigin: mouse">
+            <a-marker markerhandler preset="kanji" cursor="rayOrigin: mouse">
 
                 <!-- <a-entity
           position="0 0 0"
           scale="0.1 0.1 0.1"
           gltf-model="/box.gltf"
         ></a-entity> -->
-                <a-entity position="0 0 1" scale="0.1 0.1 0.1" rotation="-90 0 0" gltf-model="/assets/scene.gltf"></a-entity>
+                <!-- <a-entity position="0 0 1" scale="0.1 0.1 0.1" rotation="-90 0 0" gltf-model="/assets/scene.gltf"></a-entity> -->
 
-                <a-video ccvideo position="0 0 1.5" rotation="-90 0 0" height="2" width="4" src="#cc_video"></a-video>
+                <!-- <a-video ccvideo position="0 0 1.5" rotation="-90 0 0" height="2" width="4" src="#cc_video"></a-video> -->
+                <a-video ccvideo position="0 0 0" rotation="-90 0 0" height="2" width="4" src="#cc_video" play-on-click></a-video>
+                <a-image position="0 0 0" rotation="-90 0 0" height="2" width="4" src="#cc_video_poster" hide-on-play="#cc_video"></a-image>
 
                 <!-- <a-entity
           position="2 0 0"
@@ -125,69 +191,52 @@
         ></a-entity> -->
                 <!-- <a-entity id="hello" visible="Hello World" position="-1.3475 0.67939 -2.48304" text__foo="align: center; color: #000000; side: double; value: Test Me Out"></a-entity> -->
             </a-marker>
-            <a-entity camera></a-entity>
+            <a-entity camera>
+            </a-entity>
         </a-scene>
     </div>
 
     <div class="overlay">
-      <div id="fab-btn" class="fixed-action-btn click-to-toggle">
-        <a class="btn-floating btn-large red">
-          <i class="large material-icons">menu</i>
-        </a>
-        <ul>
-          <li>
-            <a class="btn-floating yellow darken-1" href="tel:+1 713 4195404"
-              ><i class="material-icons">build</i></a
-            >
-          </li>
-          <li>
-            <a
-              class="btn-floating red"
-              href="https://www.linkedin.com/in/andrew-panagos"
-              ><i class="bi bi-award-fill"></i
-            ></a>
-          </li>
-          <li>
-            <a
-              class="btn-floating red"
-              href="https://www.linkedin.com/in/andrew-panagos"
-              ><i class="bi bi-linkedin"></i
-            ></a>
-          </li>
-          <li>
-            <a class="btn-floating yellow darken-1" href="tel:+1 713 4195404"
-              ><i class="material-icons">phone</i></a
-            >
-          </li>
-          <li>
-            <a
-              class="btn-floating green"
-              href="mailto:andrew@technicool.com?subject=Hello!"
-              ><i class="material-icons">email</i></a
-            >
-          </li>
-          <li>
-            <a
-              class="btn-floating blue"
-              target="_blank"
-              href="https://www.technicool.com"
-              ><i class="material-icons">laptop</i></a
-            >
-          </li>
-        </ul>
-      </div>
+        <div id="fab-btn" class="fixed-action-btn click-to-toggle">
+            <a class="btn-floating btn-large red">
+                <i class="large material-icons">menu</i>
+            </a>
+            <ul>
+                <li>
+                    <a class="btn-floating yellow darken-1" href="tel:+1 713 4195404"><i class="material-icons">build</i></a>
+                </li>
+                <li>
+                    <a class="btn-floating red" href="https://www.linkedin.com/in/andrew-panagos"><i class="bi bi-award-fill"></i></a>
+                </li>
+                <li>
+                    <a class="btn-floating red" href="https://www.linkedin.com/in/andrew-panagos"><i class="bi bi-linkedin"></i></a>
+                </li>
+                <li>
+                    <a class="btn-floating yellow darken-1" href="tel:+1 713 4195404"><i class="material-icons">phone</i></a>
+                </li>
+                <li>
+                    <a class="btn-floating green" href="mailto:andrew@technicool.com?subject=Hello!"><i class="material-icons">email</i></a>
+                </li>
+                <li>
+                    <a class="btn-floating blue" target="_blank" href="https://www.technicool.com"><i class="material-icons">laptop</i></a>
+                </li>
+            </ul>
+        </div>
     </div>
 
-     <!-- Compiled and minified JavaScript -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-     <script>
-       $(document).ready(function() {
-         $("#fab-btn").floatingActionButton({
-           direction: "top",
-           hoverEnabled: false
-         });
-       });
-     </script>
-  </body>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function ()
+        {
+            $("#fab-btn").floatingActionButton(
+            {
+                direction: "top",
+                hoverEnabled: false
+            });
+        });
+
+    </script>
+</body>
 
 </html>
