@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,112 +12,100 @@
 
   <script>
 
-function onEnd(event)
+    /**
+     * What to do when video ends
+     */
+    function onEnd(event)
     {
       console.log("ENDED!!");
     }
 
+    /**
+     * Video pause event
+     */
     function onPause(event)
     {
       console.log("PAUSE!!");
+
+      // hide video and show poster
       var sceneEl = document.querySelector('a-scene');
       sceneEl.querySelector('#poster').object3D.visible = true;
       sceneEl.querySelector('#ccVideo').object3D.visible = false;
     }
 
-    AFRAME.registerComponent('cursor-listener', {
-  init: function () {
-    
-
-    this.el.addEventListener('click', function (evt) {
-      // console.log('I was clicked at: ', evt.detail.intersection.point);
-      console.log('I was clicked at: ', evt);
-      var sceneEl = document.querySelector('a-scene');
-      var posterImg = sceneEl.querySelector('#poster')
-      console.log(sceneEl.querySelector('#poster'));
-      console.log(sceneEl.querySelector('#ccVideo'));
-
-      if(evt.srcElement.id =="ccVideo")
+    AFRAME.registerComponent('cursor-listener',
       {
-        var videoEl = sceneEl.querySelector('#cc_video');
-        if(!videoEl.paused)
+        init: function ()
         {
-          videoEl.pause();
-          console.log("VIDEO IS PLAYING");
-          sceneEl.querySelector('#poster').object3D.visible = false;
-        sceneEl.querySelector('#ccVideo').object3D.visible = true;
-        }
-        else
-        {
-          sceneEl.querySelector('#poster').object3D.visible = false;
-        sceneEl.querySelector('#ccVideo').object3D.visible = true;
-        videoEl.onended = onEnd;
-        videoEl.onpause = onPause;
-        videoEl.isPlaying = true;
-        videoEl.play();
-        }
-        // console.log("This is the VIDEO", videoEl.currentTime);
+          // init screens - hide video and show poster
+          var sceneEl = document.querySelector('a-scene');
+          sceneEl.querySelector('#poster').object3D.visible = true;
+          sceneEl.querySelector('#ccVideo').object3D.visible = false;
 
-        // this.el.sceneEl.querySelector("#poster").hide();
-      }
-    });
-  }
-});
+          // set up events
+          var videoEl = sceneEl.querySelector('#cc_video');
+          videoEl.onended = onEnd;
+          videoEl.onpause = onPause;
 
-AFRAME.registerComponent('video-poster',
-        {
-            init: function ()
+          // add click event handler
+          this.el.addEventListener('click', function (evt)
+          {
+            console.log('I was clicked at: ', evt);
+            var sceneEl = document.querySelector('a-scene');
+            var posterImg = sceneEl.querySelector('#poster')
+            console.log(sceneEl.querySelector('#poster'));
+            console.log(sceneEl.querySelector('#ccVideo'));
+
+            if (evt.srcElement.id == "ccVideo")
             {
-              console.log("init play-on-click");
-              this.el.object3D.visible = true;
-            },
-            play: function ()
-            {
-              console.log("play POSTER");
+              var videoEl = sceneEl.querySelector('#cc_video');
+              if (!videoEl.paused)
+              {
+                // pause video
+                videoEl.pause();
+
+                // hide video and show poster 
+                sceneEl.querySelector('#poster').object3D.visible = true;
+                sceneEl.querySelector('#ccVideo').object3D.visible = false;
+              }
+              else
+              {
+                // show video hide poster
+                sceneEl.querySelector('#poster').object3D.visible = false;
+                sceneEl.querySelector('#ccVideo').object3D.visible = true;
+
+                // play video
+                videoEl.play();
+              }
             }
-        });
-
-        AFRAME.registerComponent('video-player',
-        {
-            init: function ()
-            {
-              console.log("init play-on-click");
-              this.el.object3D.visible = false;
-            },
-            play: function ()
-            {
-              console.log("play PLAYER");
-            }
-
-        });
-
-        
-  </script>
-
-</head>
-<body>
-    <a-scene cursor="rayOrigin: mouse">
-      <a-assets>
-        <video id="cc_video" autostart="false" controls poster="assets/celebrate-students-poster.png" loop="false" src="assets/celebrate_students.mp4"></video>
-        <img id="cc_video_poster" src="assets/celebrate-students-poster.png">
-    </a-assets>
-
-      <!-- <a-box id="testBox" position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" cursor-listener ></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane> -->
-
-      <a-video id="ccVideo" ccvideo position="0 1.25 -5" rotation="0 0 0" height="2" width="4" src="#cc_video" cursor-listener video-player></a-video>
-      <a-image id="poster" position="0 1.25 -5" rotation="0 0 0" height="2" width="4" src="#cc_video_poster" cursor-listener video-poster ></a-image>
-
-      
-    </a-scene>
-
-    <script>
-      $(document).ready(function ()
-      {
+          });
+        }
       });
 
   </script>
+
+</head>
+
+<body>
+  <a-scene cursor="rayOrigin: mouse">
+    <a-assets>
+      <video id="cc_video" autostart="false" controls poster="assets/celebrate-students-poster.png" loop="false" src="assets/celebrate_students.mp4"></video>
+      <img id="cc_video_poster" src="assets/celebrate-students-poster.png">
+    </a-assets>
+
+    <a-video id="ccVideo" ccvideo position="0 1.25 -5" rotation="0 0 0" height="2" width="4" src="#cc_video" cursor-listener ></a-video>
+    <a-image id="poster" position="0 1.25 -5" rotation="0 0 0" height="2" width="4" src="#cc_video_poster" ></a-image>
+
+  </a-scene>
+
+  <script>
+    $(document).ready(function ()
+    {
+
+
+    });
+
+  </script>
 </body>
+
 </html>
