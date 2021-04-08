@@ -6,116 +6,107 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AFrame Test</title>
-
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <script>
 
-window.addEventListener('camera-init', (data) => {
-        console.log('camera-init', data);
+  <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+  <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.2/aframe/build/aframe-ar.js"></script>
+
+
+  <!-- <script src="https://aframe.io/releases/1.0.0/aframe.min.js"></script> -->
+  <!-- we import arjs version without NFT but with marker + location based support -->
+  <!-- <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script> -->
+
+
+  <script>
+    window.addEventListener('camera-init', (data) => {
+      console.log('camera-init', data);
     })
 
     window.addEventListener('camera-error', (error) => {
-        console.log('camera-error', error);
+      console.log('camera-error', error);
     })
 
-        AFRAME.registerComponent('markerhandler',
-          {
-            init: function ()
-            {
+    AFRAME.registerComponent('markerhandler', {
+      init: function () {
 
-              this.el.sceneEl.addEventListener('markerFound', () =>
-              {
-                console.log("Marker Found");
-                $(".prescreen").hide();
-                // $('#cc_video').get(0).play();
+        this.el.sceneEl.addEventListener('markerFound', () => {
+          console.log("Marker Found");
+          $(".prescreen").hide();
+          // $('#cc_video').get(0).play();
 
 
-              });
+        });
 
-              this.el.sceneEl.addEventListener('markerLost', () =>
-              {
-                console.log("Marker Lost");
-                $(".prescreen").show();
-                // $('#cc_video').get(0).pause();
-              });
+        this.el.sceneEl.addEventListener('markerLost', () => {
+          console.log("Marker Lost");
+          $(".prescreen").show();
+          // $('#cc_video').get(0).pause();
+        });
 
-            }
-          });
+      }
+    });
 
-        /**
-         * What to do when video ends
-         */
-        function onEnd(event)
-        {
-          console.log("ENDED!!");
-        }
+    /**
+     * What to do when video ends
+     */
+    function onEnd(event) {
+      console.log("ENDED!!");
+    }
 
-        /**
-         * Video pause event
-         */
-        function onPause(event)
-        {
-          console.log("PAUSE!!");
+    /**
+     * Video pause event
+     */
+    function onPause(event) {
+      console.log("PAUSE!!");
 
-          // hide video and show poster
+      // hide video and show poster
+      var sceneEl = document.querySelector('a-scene');
+      sceneEl.querySelector('#poster').object3D.visible = true;
+      sceneEl.querySelector('#ccVideo').object3D.visible = false;
+    }
+
+    AFRAME.registerComponent('cursor-listener', {
+      init: function () {
+        // init screens - hide video and show poster
+        var sceneEl = document.querySelector('a-scene');
+        sceneEl.querySelector('#poster').object3D.visible = true;
+        sceneEl.querySelector('#ccVideo').object3D.visible = false;
+
+        // set up events
+        var videoEl = sceneEl.querySelector('#cc_video');
+        videoEl.onended = onEnd;
+        videoEl.onpause = onPause;
+
+        // add click event handler
+        this.el.addEventListener('click', function (evt) {
+          console.log('I was clicked at: ', evt);
           var sceneEl = document.querySelector('a-scene');
-          sceneEl.querySelector('#poster').object3D.visible = true;
-          sceneEl.querySelector('#ccVideo').object3D.visible = false;
-        }
+          var posterImg = sceneEl.querySelector('#poster')
+          console.log(sceneEl.querySelector('#poster'));
+          console.log(sceneEl.querySelector('#ccVideo'));
 
-        AFRAME.registerComponent('cursor-listener',
-          {
-            init: function ()
-            {
-              // init screens - hide video and show poster
-              var sceneEl = document.querySelector('a-scene');
+          if (evt.srcElement.id == "ccVideo") {
+            var videoEl = sceneEl.querySelector('#cc_video');
+            if (!videoEl.paused) {
+              // pause video
+              videoEl.pause();
+
+              // hide video and show poster 
               sceneEl.querySelector('#poster').object3D.visible = true;
               sceneEl.querySelector('#ccVideo').object3D.visible = false;
+            } else {
+              // show video hide poster
+              sceneEl.querySelector('#poster').object3D.visible = false;
+              sceneEl.querySelector('#ccVideo').object3D.visible = true;
 
-              // set up events
-              var videoEl = sceneEl.querySelector('#cc_video');
-              videoEl.onended = onEnd;
-              videoEl.onpause = onPause;
-
-              // add click event handler
-              this.el.addEventListener('click', function (evt)
-              {
-                console.log('I was clicked at: ', evt);
-                var sceneEl = document.querySelector('a-scene');
-                var posterImg = sceneEl.querySelector('#poster')
-                console.log(sceneEl.querySelector('#poster'));
-                console.log(sceneEl.querySelector('#ccVideo'));
-
-                if (evt.srcElement.id == "ccVideo")
-                {
-                  var videoEl = sceneEl.querySelector('#cc_video');
-                  if (!videoEl.paused)
-                  {
-                    // pause video
-                    videoEl.pause();
-
-                    // hide video and show poster 
-                    sceneEl.querySelector('#poster').object3D.visible = true;
-                    sceneEl.querySelector('#ccVideo').object3D.visible = false;
-                  }
-                  else
-                  {
-                    // show video hide poster
-                    sceneEl.querySelector('#poster').object3D.visible = false;
-                    sceneEl.querySelector('#ccVideo').object3D.visible = true;
-
-                    // play video
-                    videoEl.play();
-                  }
-                }
-              });
+              // play video
+              videoEl.play();
             }
-          });
-
+          }
+        });
+      }
+    });
   </script>
   <style>
     .threed {
@@ -149,31 +140,39 @@ window.addEventListener('camera-init', (data) => {
 <body style='margin : 0px; overflow: hidden; width: 100%; height: 100%'>
   <div class="prescreen"><img src="assets/pre-screen.png"></div>
   <div class="threed">
-    <a-scene vr-mode-ui="enabled: false" arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" raycaster='near: 0; far: 50000' >
+    <a-scene vr-mode-ui="enabled: false" arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+      raycaster='near: 0; far: 50000'>
       <a-assets>
-        <video id="cc_video" autostart="false" controls poster="assets/celebrate-students-poster.png" loop="false" src="assets/celebrate_students.mp4"></video>
+        <video id="cc_video" autostart="false" controls poster="assets/celebrate-students-poster.png" loop="false"
+          src="assets/celebrate_students.mp4"></video>
         <img id="cc_video_poster" src="assets/celebrate-students-poster.png">
       </a-assets>
-
-      <!-- <a-marker markerhandler preset="kanji" cursor="rayOrigin: mouse"> -->
       <a-marker markerhandler preset="hiro" cursor="rayOrigin: mouse">
 
-        <a-video id="ccVideo" ccvideo position="0 0 0" rotation="-90 0 0" height="2" width="4" src="#cc_video" cursor-listener></a-video>
+        <a-video id="ccVideo" ccvideo position="0 0 0" rotation="-90 0 0" height="2" width="4" src="#cc_video"
+          cursor-listener></a-video>
         <a-image id="poster" position="0 0 0" rotation="-90 0 0" height="2" width="4" src="#cc_video_poster"></a-image>
 
       </a-marker>
       <a-entity camera near="0.1" far="50000" fov="80">
       </a-entity>
     </a-scene>
+
+    <!-- <a-scene embedded arjs>
+      <a-marker preset="hiro">
+        <a-entity position="0 -1 0" scale="0.05 0.05 0.05"
+          gltf-model="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf">
+        </a-entity>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene> -->
   </div>
 
   <script>
-  $(document).ready(function ()
-  {
+    $(document).ready(function () {
 
 
-  });
-
+    });
   </script>
 </body>
 
