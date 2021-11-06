@@ -22,6 +22,7 @@ function getLocation() {
 			maximumAge : 0
 		};
   if (navigator.geolocation) {
+    x.innerHTML = "Finding Location...";
     navigator.geolocation.getCurrentPosition(showPosition,error,optn);
   } else { 
     x.innerHTML = "Geolocation is not supported by this browser.";
