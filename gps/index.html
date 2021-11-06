@@ -11,6 +11,10 @@
 <script>
 var x = document.getElementById("demo");
 
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
 function getLocation() {
   var optn = {
 			enableHighAccuracy : true,
@@ -18,7 +22,7 @@ function getLocation() {
 			maximumAge : 0
 		};
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition,optn);
+    navigator.geolocation.getCurrentPosition(showPosition,error,optn);
   } else { 
     x.innerHTML = "Geolocation is not supported by this browser.";
   }
