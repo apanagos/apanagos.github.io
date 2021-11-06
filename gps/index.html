@@ -12,8 +12,13 @@
 var x = document.getElementById("demo");
 
 function getLocation() {
+  var optn = {
+			enableHighAccuracy : true,
+			timeout : Infinity,
+			maximumAge : 0
+		};
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
+    navigator.geolocation.getCurrentPosition(showPosition,optn);
   } else { 
     x.innerHTML = "Geolocation is not supported by this browser.";
   }
